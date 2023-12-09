@@ -1,8 +1,15 @@
+OBJS = \
+	bin/syscall.o\
+	bin/output.o\
+
 bin/syscall.o: src/syscall.s
 	gcc -c src/syscall.s -o bin/syscall.o
 
-test/_test: test/test.c
-	gcc test/test.c -I include/ -o test/_test
+bin/%.o: src/%.c
+	gcc -c $< -I include/ -o $@
+
+test/_test: test/test.c $(OBJS)
+	gcc test/test.c $(OBJS) -I include/ -o test/_test
 
 test: test/_test
 	test/_test
