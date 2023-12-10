@@ -1,6 +1,5 @@
 #include "syscall.h"
-
-#include <stdarg.h>
+#include "vararg.h"
 
 void print_int(int fd, int num) {
     int sign;
