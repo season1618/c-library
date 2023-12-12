@@ -1,9 +1,16 @@
+#include "syscall.h"
+#include "output.h"
 #include "memory.h"
-#include <unistd.h>
 
-typedef _Bool bool;
-#define true 1
-#define false 0
+// typedef _Bool bool;
+// #define true 1
+// #define false 0
+
+#define NULL 0
+
+#define MIN_ALLOC 4096
+
+ulong cur_break = 0;
 
 union header {
     struct {
@@ -16,7 +23,17 @@ union header {
 static union header base;
 static union header *last = NULL;
 
-#define MIN_ALLOC 4096
+void *sbrk(int num_byte) {
+    if (cur_break == 0) cur_break = brk(0);
+    
+    if (num_byte == 0) return (void *)cur_break;
+
+    ulong old_break = cur_break;
+    ulong new_break = cur_break + (long)num_byte;
+    if (brk(new_break) < new_break) return (void *)-1;
+    cur_break = new_break;
+    return (void *)old_break;
+}
 
 void free(void *addr) {
     union header *head = (union header *)addr - 1;
