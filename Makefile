@@ -1,7 +1,8 @@
 OBJS = \
 	bin/syscall.o\
 	bin/output.o\
-	bin/memory.o
+	bin/memory.o\
+	bin/random.o
 
 bin/syscall.o: src/syscall.s
 	gcc -c src/syscall.s -o bin/syscall.o

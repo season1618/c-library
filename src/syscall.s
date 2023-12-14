@@ -15,3 +15,8 @@ brk:
     mov rax, 12
     syscall
     ret
+.global getrandom
+getrandom:
+    mov rax, 318
+    syscall
+    ret
