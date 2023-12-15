@@ -40,3 +40,7 @@ void get_real_time(struct real_time *rt) { // UTC
     rt->month = m;
     rt->day = x;
 }
+
+void get_cpu_time(struct timespec *ct) {
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, ct);
+}
