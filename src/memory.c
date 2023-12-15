@@ -2,9 +2,7 @@
 #include "output.h"
 #include "memory.h"
 
-// typedef _Bool bool;
-// #define true 1
-// #define false 0
+// B. Kernighan and D. Ritchie, The C Programming Language 2nd edition.
 
 #define NULL 0
 
