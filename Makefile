@@ -18,5 +18,4 @@ test: test/_test
 	test/_test
 
 clean:
-	rm bin/*
-	rm _*
+	rm bin/* test/_test
