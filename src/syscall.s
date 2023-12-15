@@ -15,6 +15,11 @@ brk:
     mov rax, 12
     syscall
     ret
+.global clock_gettime
+clock_gettime:
+    mov rax, 228
+    syscall
+    ret
 .global getrandom
 getrandom:
     mov rax, 318
