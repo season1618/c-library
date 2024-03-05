@@ -28,7 +28,6 @@ int fprint_int(FILE *file, int num) {
 }
 
 int vfprintf(FILE *file, const char *format, va_list ap) {
-    char buf[1];
     for (int i = 0; format[i]; i++) {
         if (format[i] == '%') {
             switch (format[i+1]) {
@@ -37,13 +36,11 @@ int vfprintf(FILE *file, const char *format, va_list ap) {
                     i++;
                     break;
                 default:
-                    buf[0] = '%';
-                    fwrite(buf, 1, 1, file);
+                    fwrite(format + i, 1, 1, file);
                     continue;
             }
         } else {
-            buf[0] = format[i];
-            fwrite(buf, 1, 1, file);
+            fwrite(format + i, 1, 1, file);
         }
     }
 }
