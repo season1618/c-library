@@ -8,7 +8,12 @@ struct FILE {
 	size_t buf_size;
     unsigned char *read_pos, *read_end;
 	unsigned char *write_pos, *write_end;
+    FILE *next;
 };
+
+#define NULL 0
+
+FILE *head = NULL;
 
 #define UNGET 8
 
@@ -24,6 +29,8 @@ FILE *fopen(const char *name, int flag) {
     file->read_pos = file->read_end = 0;
     file->write_pos = file->buf;
     file->write_end = file->buf + file->buf_size;
+    file->next = head;
+    head = file;
 }
 
 FILE *fopen_read(const char *name) {
@@ -78,4 +85,10 @@ int fflush(FILE *file) {
     int cnt = write(file->fd, file->buf, file->write_pos - file->buf);
     file->write_pos = file->buf;
     return cnt;
+}
+
+void fflush_all() {
+    for (FILE *file = head; file != NULL; file = file->next) {
+        fflush(file);
+    }
 }

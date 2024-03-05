@@ -23,3 +23,4 @@ FILE *fopen_write(const char *name);
 size_t fread(void *ptr, size_t size, size_t len, FILE *file);
 size_t fwrite(const void *ptr, size_t size, size_t len, FILE *file);
 int fflush(FILE *file);
+void fflush_all();
