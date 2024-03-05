@@ -27,10 +27,18 @@ int fprint_int(FILE *file, int num) {
     return fwrite(buf + i, 1, 16 - i, file);
 }
 
+int fprint_char(FILE *file, char c) {
+    return fwrite(&c, 1, 1, file);
+}
+
 int vfprintf(FILE *file, const char *format, va_list ap) {
     for (int i = 0; format[i]; i++) {
         if (format[i] == '%') {
             switch (format[i+1]) {
+                case 'c':
+                    fprint_char(file, va_arg(ap, int));
+                    i++;
+                    break;
                 case 'd':
                     fprint_int(file, va_arg(ap, int));
                     i++;
