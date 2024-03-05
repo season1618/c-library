@@ -7,7 +7,7 @@
 #define O_TRUNC  01000
 #define O_APPEND 02000
 
-typedef unsigned int size_t;
+typedef long unsigned int size_t;
 
 #define READ_MODE_FLAG (O_RDONLY)
 #define WRITE_MODE_FLAG (O_WRONLY | O_CREAT | O_TRUNC)
@@ -19,4 +19,6 @@ typedef struct FILE FILE;
 #define BUF_SIZE 1024
 
 FILE *fopen_read(const char *name);
+FILE *fopen_write(const char *name);
 size_t fread(void *ptr, size_t size, size_t len, FILE *file);
+size_t fwrite(const void *ptr, size_t size, size_t len, FILE *file);
