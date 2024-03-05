@@ -31,6 +31,12 @@ int fprint_char(FILE *file, char c) {
     return fwrite(&c, 1, 1, file);
 }
 
+int fprint_string(FILE *file, char *s) {
+    int len = 0;
+    while (s[len] != '\0') len++;
+    return fwrite(s, 1, len, file);
+}
+
 int vfprintf(FILE *file, const char *format, va_list ap) {
     for (int i = 0; format[i]; i++) {
         if (format[i] == '%') {
@@ -41,6 +47,10 @@ int vfprintf(FILE *file, const char *format, va_list ap) {
                     break;
                 case 'd':
                     fprint_int(file, va_arg(ap, int));
+                    i++;
+                    break;
+                case 's':
+                    fprint_string(file, (char *)va_arg(ap, long));
                     i++;
                     break;
                 default:
