@@ -1,7 +1,8 @@
 #include "syscall.h"
+#include "file.h"
 #include "vararg.h"
 
-void print_int(int fd, int num) {
+int fprint_int(FILE *file, int num) {
     int sign;
     if (num >= 0) {
         sign = 0;
@@ -23,38 +24,32 @@ void print_int(int fd, int num) {
         buf[i] = '-';
     }
 
-    write(fd, buf + i, 16 - i);
+    return fwrite(buf + i, 1, 16 - i, file);
 }
 
-void print_file_vararg(int fd, const char *format, va_list ap) {
+int vfprintf(FILE *file, const char *format, va_list ap) {
     char buf[1];
     for (int i = 0; format[i]; i++) {
         if (format[i] == '%') {
             switch (format[i+1]) {
                 case 'd':
-                    print_int(fd, va_arg(ap, int));
+                    fprint_int(file, va_arg(ap, int));
                     i++;
                     break;
                 default:
                     buf[0] = '%';
-                    write(fd, buf, 1);
+                    fwrite(buf, 1, 1, file);
                     continue;
             }
         } else {
             buf[0] = format[i];
-            write(fd, buf, 1);
+            fwrite(buf, 1, 1, file);
         }
     }
 }
 
-void print_file(int fd, const char *format, ...) {
+int fprintf(FILE *file, const char *format, ...) {
     va_list ap;
     va_start(ap, format);
-    print_file_vararg(fd, format, ap);
-}
-
-void print(const char *format, ...) {
-    va_list ap;
-    va_start(ap, format);
-    print_file_vararg(1, format, ap);
+    vfprintf(file, format, ap);
 }
