@@ -4,10 +4,10 @@
 
 struct FILE {
     int fd;
-	unsigned char *buf;
-	size_t buf_size;
+    unsigned char *buf;
+    size_t buf_size;
     unsigned char *read_pos, *read_end;
-	unsigned char *write_pos, *write_end;
+    unsigned char *write_pos, *write_end;
     FILE *next;
 };
 
