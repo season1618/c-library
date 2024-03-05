@@ -2,6 +2,7 @@ OBJS = \
 	bin/syscall.o\
 	bin/file.o\
 	bin/output.o\
+	bin/stdio.o\
 	bin/memory.o\
 	bin/random.o\
 	bin/time.o\
