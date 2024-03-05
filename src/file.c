@@ -68,11 +68,17 @@ size_t fwrite(const void *ptr, size_t size, size_t len, FILE *file) {
             rest_size--;
         }
 
-        if (write(file->fd, file->buf, file->write_pos - file->buf) == -1) {
-            return len - (rest_size + size - 1) / size;
+        if (file->write_pos == file->write_end) {
+            if (write(file->fd, file->buf, file->write_pos - file->buf) == -1) return len - (rest_size + size - 1) / size;
+            file->write_pos = file->buf;
+            file->write_end = file->buf + file->buf_size;
         }
-        file->write_pos = file->buf;
-        file->write_end = file->buf + file->buf_size;
     }
     return len;
+}
+
+int fflush(FILE *file) {
+    int cnt = write(file->fd, file->buf, file->write_pos - file->buf);
+    file->write_pos = file->buf;
+    return cnt;
 }
