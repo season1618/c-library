@@ -14,19 +14,8 @@ struct FILE {
 
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
 
-FILE *fopen_read(const char *name) {
-    int fd = open(name, READ_MODE_FLAG, 0666);
-
-    FILE *file = alloc(sizeof(FILE) + UNGET + BUF_SIZE);
-    file->fd = fd;
-    file->buf = (unsigned char *)file + sizeof(FILE) + UNGET;
-    file->buf_size = BUF_SIZE;
-    file->read_pos = file->read_end = 0;
-    file->write_pos = file->write_end = 0;
-}
-
-FILE *fopen_write(const char *name) {
-    int fd = open(name, WRITE_MODE_FLAG, 0666);
+FILE *fopen(const char *name, int flag) {
+    int fd = open(name, flag, 0666);
 
     FILE *file = alloc(sizeof(FILE) + UNGET + BUF_SIZE);
     file->fd = fd;
@@ -35,6 +24,14 @@ FILE *fopen_write(const char *name) {
     file->read_pos = file->read_end = 0;
     file->write_pos = file->buf;
     file->write_end = file->buf + file->buf_size;
+}
+
+FILE *fopen_read(const char *name) {
+    return fopen(name, READ_MODE_FLAG);
+}
+
+FILE *fopen_write(const char *name) {
+    return fopen(name, WRITE_MODE_FLAG);
 }
 
 size_t fread(void *ptr, size_t size, size_t len, FILE *file) {
