@@ -1,9 +1,10 @@
 OBJS = \
 	bin/syscall.o\
+	bin/file.o\
 	bin/output.o\
 	bin/memory.o\
 	bin/random.o\
-	bin/time.o
+	bin/time.o\
 
 bin/syscall.o: src/syscall.s
 	gcc -c src/syscall.s -o bin/syscall.o
