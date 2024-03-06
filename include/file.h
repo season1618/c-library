@@ -13,7 +13,6 @@ typedef long unsigned int size_t;
 #define WRITE_MODE_FLAG (O_WRONLY | O_CREAT | O_TRUNC)
 #define APPEND_MODE_FLAG (O_WRONLY | O_CREAT | O_APPEND)
 
-struct FILE;
 typedef struct FILE FILE;
 
 #define BUF_SIZE 1024

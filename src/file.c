@@ -1,5 +1,6 @@
 #include "syscall.h"
 #include "file.h"
+#include "stdio.h"
 #include "memory.h"
 
 struct FILE {
@@ -18,6 +19,32 @@ FILE *head = NULL;
 #define UNGET 8
 
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
+
+static unsigned char stdin_buf[BUF_SIZE];
+static unsigned char stdout_buf[BUF_SIZE];
+static unsigned char stderr_buf[BUF_SIZE];
+
+FILE stdin_file = {
+    .fd = 0,
+    .buf = stdin_buf,
+    .buf_size = BUF_SIZE,
+};
+
+FILE stdout_file = {
+    .fd = 1,
+    .buf = stdout_buf,
+    .buf_size = BUF_SIZE,
+};
+
+FILE stderr_file = {
+    .fd = 2,
+    .buf = stderr_buf,
+    .buf_size = BUF_SIZE,
+};
+
+FILE *const stdin = &stdin_file;
+FILE *const stdout = &stdout_file;
+FILE *const stderr = &stderr_file;
 
 FILE *fopen(const char *name, int flag) {
     int fd = open(name, flag, 0666);
