@@ -109,12 +109,12 @@ size_t fread(void *ptr, size_t size, size_t len, FILE *file) {
 
 size_t fwrite(const void *ptr, size_t size, size_t len, FILE *file) {
     const unsigned char *ptr_ = ptr;
-    for (size_t rest_size = size * len; rest_size > 0; rest_size--) {
+    for (size_t write_size = 0; write_size < size * len; write_size++) {
         *file->write_pos = *ptr_;
         file->write_pos++, ptr_++;
 
         if (file->write_pos == file->write_end || file->buf_mode == LINE && ptr_[-1] == '\n' || file->buf_mode == UNBUF) {
-            if (write(file->fd, file->buf, file->write_pos - file->buf) == -1) return len - (rest_size + size - 1) / size;
+            if (write(file->fd, file->buf, file->write_pos - file->buf) == -1) return write_size / size;
             file->write_pos = file->buf;
             file->write_end = file->buf + file->buf_size;
         }
